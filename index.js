@@ -2,7 +2,7 @@ const SlackBot = require('slackbots');
 const axios = require('axios');
 
 const bot = new SlackBot({
-  token: 'xoxb-946011727382-931097051394-mONA9DPVUJjbLGdAT6jzQR7M',
+  token: 'xoxb-946011727382-931097051394-Ij7qlodtwSomlzekWJHzEszN',
   name: 'bot'
 });
 
@@ -24,11 +24,11 @@ bot.on('message', (data) => {
         return;
     }
 
-    handleMessage(data.text, data.username);
+    handleMessage(data.text, data.username, data.user);
 });
 
 //respond to data
-function handleMessage(message, username){
+function handleMessage(message, username, usersender){
     //respond to shopping list command
     if(message.includes(' bevásárlólista')){
         let darabok = message.split(" ");
@@ -90,6 +90,15 @@ function handleMessage(message, username){
     else if(message.includes(' segítség')){
         Help();
     }
+    else if(message.includes(' szia') || message.includes(' helló')){
+        const params = {
+            icon_emoji: ':wave:'
+        };
+        bot.getUserById(usersender).then((data) => {
+            let name = data.real_name;
+            bot.postMessageToChannel('general', `Szia ${name} a botnak a következő parancsai vannak *@Bot segítség*`, params);
+        });
+    }
     else if(username !== 'bot'){
         bot.getUserId('bot').then(res => {
             let user = res;
@@ -100,7 +109,7 @@ function handleMessage(message, username){
                 let darabok = message.split(" ");
                 bot.postMessageToChannel('general', `Ennek a Botnak nincs ilyen parancsa: ${darabok[1]}`, params);
             }
-        })
+        });
         
     }
 }
