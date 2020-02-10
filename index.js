@@ -195,8 +195,9 @@ function Help(){
                 console.log("3");
                 bot.postMessageToChannel('general', `${szokozok}${szokozok}törlés *tárgyak listája szóközzel elválasztva*`, params).then((data) => {
                     console.log("4");
-                    bot.postMessageToChannel('general', `${szokozok}${szokozok}megnézés`, params);
-                    console.log("5");
+                    bot.postMessageToChannel('general', `${szokozok}${szokozok}megnézés`, params).then((data) => {
+                        console.log("5");
+                    });
                 });
             });
         });
