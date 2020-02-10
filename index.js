@@ -2,7 +2,7 @@ const SlackBot = require('slackbots');
 const axios = require('axios');
 
 const bot = new SlackBot({
-  token: 'xoxb-946011727382-931097051394-Ij7qlodtwSomlzekWJHzEszN',
+  token: 'xoxb-946011727382-931097051394-2MZnRt1NCPGbNni9LOH2hVUf',
   name: 'bot'
 });
 
@@ -23,12 +23,12 @@ bot.on('message', (data) => {
     if(data.type !== 'message'){
         return;
     }
-
-    handleMessage(data.text, data.username, data.user);
+    console.log(data);
+    handleMessage(data.text, data.username, data.user, data.cgannel);
 });
 
 //respond to data
-function handleMessage(message, username, usersender){
+function handleMessage(message, username, usersender, channelidforbot){
     //respond to shopping list command
     if(message.includes(' bevásárlólista')){
         let darabok = message.split(" ");
@@ -89,6 +89,17 @@ function handleMessage(message, username, usersender){
     //respandto help  command
     else if(message.includes(' segítség')){
         Help();
+    }
+    else if(message.includes(' teszt 2002')){
+
+    }
+    else if((message.includes(' idő') || message.includes(' dátum')) && username !== 'bot'){
+        let date = new Date().toString();
+        let darab = date.split(" ");
+        const params = {
+            icon_emoji: ':timer_clock:'
+        }
+        bot.postMessageToChannel('general', `A dátum: ${darab[3]}-${darab[1]}-${darab[2]} Az idő: ${darab[4]}`, params);
     }
     else if(message.includes(' szia') || message.includes(' helló')){
         const params = {
